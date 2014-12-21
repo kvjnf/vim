@@ -2,26 +2,26 @@
 """"""""""""""""""""""""""""""
 " プラグインのセットアップ
 """"""""""""""""""""""""""""""
-if has('vim_starting')
-  set nocompatible               " Be iMproved
+"--------------------------------------------------------------------------
+" neobundle
+set nocompatible               " Be iMproved
+filetype off                   " Required!
 
-  " Required:
+if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
+call neobundle#rc(expand('~/.vim/bundle/'))
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+filetype plugin indent on     " Required!
 
-" ファイルオープンを便利に
-NeoBundle 'Shougo/unite.vim'
-" Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'Shougo/neomru.vim'
-
-" http://blog.remora.cx/2010/12/vim-ref-with-unite.html
+" Installation check.
+if neobundle#exists_not_installed_bundles()
+  echomsg 'Not installed bundles : ' .
+        \ string(neobundle#get_not_installed_bundle_names())
+  echomsg 'Please execute ":NeoBundleInstall" command.'
+  "finish
+endif
 """"""""""""""""""""""""""""""
 " Unit.vimの設定
 """"""""""""""""""""""""""""""
