@@ -1,9 +1,3 @@
-
-""""""""""""""""""""""""""""""
-" プラグインのセットアップ
-""""""""""""""""""""""""""""""
-"--------------------------------------------------------------------------
-" neobundle
 set nocompatible               " Be iMproved
 filetype off                   " Required!
 
@@ -11,17 +5,17 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 filetype plugin indent on     " Required!
 
-" Installation check.
 if neobundle#exists_not_installed_bundles()
   echomsg 'Not installed bundles : ' .
         \ string(neobundle#get_not_installed_bundle_names())
   echomsg 'Please execute ":NeoBundleInstall" command.'
   "finish
 endif
+
 """"""""""""""""""""""""""""""
 " Unit.vimの設定
 """"""""""""""""""""""""""""""
@@ -44,34 +38,33 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vspli
 " ESCキーを2回押すと終了する
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
 " Nerdtreeの設定
-""""""""""""""""""""""""""""""
-" ファイルをtree表示してくれる
-NeoBundle 'scrooloose/nerdtree'
-
-""""""""""""""""""""""""""""""
-" fugitive.vimの設定
-""""""""""""""""""""""""""""""
 " Gitを便利に使う
 NeoBundle 'tpope/vim-fugitive'
 
+" fugitive.vimの設定
+" Gitを便利に使う
+NeoBundle 'tpope/vim-fugitive'
 " grep検索の実行後にQuickFix Listを表示する
-autocmd QuickFixCmdPost *grep* cwindow
-
-" ステータス行に現在のgitブランチを表示する
 set statusline+=%{fugitive#statusline()}
 
-""""""""""""""""""""""""""""""
-" vim-railsの設定
+" solarized
+NeoBundle 'altercation/vim-colors-solarized'
+
+"Railsの設定
 """"""""""""""""""""""""""""""
 " Rails向けのコマンドを提供する
 NeoBundle 'tpope/vim-rails'
 
 " ruby end を自動で挿入
 NeoBundle 'tpope/vim-endwise'
+
+" emmet-vim
+NeoBundle 'mattn/emmet-vim'
+
+" nerd-tree
+NeoBundle 'scrooloose/nerdtree'
 
 " コメントON/OFFを手軽に実行
 NeoBundle 'tomtom/tcomment_vim'
@@ -80,78 +73,41 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
-let g:indent_guides_enable_on_vim_startup = 1
+ let g:indent_guides_enable_on_vim_startup = 1
 
-" 行末の半角スペースを可視化
-NeoBundle 'bronson/vim-trailing-whitespace'
+ " 行末の半角スペースを可視化
+ NeoBundle 'bronson/vim-trailing-whitespace'
 
-" http://inari.hatenablog.com/entry/2014/05/05/231307
-""""""""""""""""""""""""""""""
 " 全角スペースの表示
-""""""""""""""""""""""""""""""
 function! ZenkakuSpace()
-    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+ highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 endfunction
 
 if has('syntax')
-    augroup ZenkakuSpace
-        autocmd!
-        autocmd ColorScheme * call ZenkakuSpace()
-        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
-    augroup END
-    call ZenkakuSpace()
+   augroup ZenkakuSpace
+   autocmd!
+   autocmd ColorScheme * call ZenkakuSpace()
+   autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+   augroup END
+   call ZenkakuSpace()
 endif
-""""""""""""""""""""""""""""""
 
-" 最後のカーソル位置を復元する
-""""""""""""""""""""""""""""""
-if has("autocmd")
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
-    \ endif
-endif
-""""""""""""""""""""""""""""""
 call neobundle#end()
-
-" Required:
 filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
 NeoBundleCheck
-""""""""""""""""""""""""""""""
 
-colorscheme molokai
-let g:molokai_original = 1
-let g:rehash256 = 1
-"黒い背景色に合わせた配色にする
-set background=dark
-" 対応する括弧やブレースを表示する
-set showmatch
+"コピペ対策
+set clipboard=unnamed
 syntax on
-set guifont=MS_Gothic:h12
-"行数の表示
+set showmatch
 set number
 set mouse=a
-set softtabstop=4
-set shiftwidth=4
+set shiftwidth=2
 set backspace=start,eol,indent
-set incsearch
-set wildmenu wildmode=list:full
-set termencoding=cp932
-:set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 set hidden
 set autoread
-" スワップファイルは使わない
 set noswapfile
-" 改行時に前の行のインデントを継続する
-set autoindent
-" 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smartindent
-" タブ文字の表示幅
-set tabstop=2
-" Vimが挿入するインデントの幅
-set shiftwidth=2
-" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
 set smarttab
+"改行時のコメント自動挿入停止
+autocmd FileType * setlocal formatoptions-=ro
