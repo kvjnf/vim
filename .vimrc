@@ -51,7 +51,8 @@ set statusline+=%{fugitive#statusline()}
 
 " solarized
 NeoBundle 'altercation/vim-colors-solarized'
-
+" jellybeans
+NeoBundle 'nanotech/jellybeans.vim'
 "Railsの設定
 """"""""""""""""""""""""""""""
 " Rails向けのコマンドを提供する
@@ -60,8 +61,43 @@ NeoBundle 'tpope/vim-rails'
 " ruby end を自動で挿入
 NeoBundle 'tpope/vim-endwise'
 
+" ommni補完
+" neocomplete
+"NeoBundle 'Shougo/neocomplete.vim'
+
+" neocomplete-php
+"NeoBundle 'violettyk/neocomplete-php.vim'
+"let g:neocomplete_php_locale = 'ja'
+
+" neosnippet
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+
+" tagbar + phpctags
+NeoBundle 'vim-scripts/tagbar-phpctags', {
+  \   'build' : {
+  \     'others' : 'chmod +x bin/phpctags',
+  \   },
+  \ }
+NeoBundle 'vim-scripts/tagbar'
+
+" Unite outline ソースコード探索用 :Unite outline
+" http://kaworu.jpn.org/kaworu/2013-03-22-1.php
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-outline'
+
+" 変数や関数の一覧を表示 taglist.vim =>  http://nanasi.jp/articles/vim/taglist_vim.html
+NeoBundle 'taglist.vim'
+ctags -R -n --languages=PHP --PHP-types=c+f+d
 " emmet-vim
 NeoBundle 'mattn/emmet-vim'
+
+" syntastic シンタックスチェック
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=2
 
 " nerd-tree
 NeoBundle 'scrooloose/nerdtree'
@@ -99,6 +135,7 @@ NeoBundleCheck
 "コピペ対策
 set clipboard=unnamed
 syntax on
+colorscheme jellybeans
 set showmatch
 set number
 set mouse=a
