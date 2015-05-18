@@ -90,7 +90,7 @@ NeoBundle 'Shougo/unite-outline'
 
 " 変数や関数の一覧を表示 taglist.vim =>  http://nanasi.jp/articles/vim/taglist_vim.html
 NeoBundle 'taglist.vim'
-ctags -R -n --languages=PHP --PHP-types=c+f+d
+"ctags -R -n --languages=PHP --PHP-types=c+f+d
 " emmet-vim
 NeoBundle 'mattn/emmet-vim'
 
@@ -98,6 +98,18 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
+
+" js syntax chk
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+
+" javascript indent
+NeoBundle 'vim-scripts/JavaScript-Indent'
+
+" javascript 補完 .tern-projectを設定しましょう
+NeoBundle 'marijnh/tern_for_vim', {
+  \ 'build': {
+  \   'others': 'npm install'
+  \}}
 
 " nerd-tree
 NeoBundle 'scrooloose/nerdtree'
