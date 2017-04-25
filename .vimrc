@@ -1,22 +1,14 @@
-set nocompatible
-filetype off            " for NeoBundle
-
-if has('vim_starting')
-        set rtp+=$HOME/.vim/bundle/neobundle.vim/
+if &compatible
+  set nocompatible
 endif
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-" ここからプラグインの設定
+call dein#begin(expand('~/.vim/dein'))
 
+call dein#add('Shougo/dein.vim') "ここからプラグインの設定
+call dein#add('nanotech/jellybeans.vim')
 " カラー
-" solarized
-NeoBundle 'altercation/vim-colors-solarized'
-" jellybeans
-NeoBundle 'nanotech/jellybeans.vim'
-
-" Vimの下にあるメニューをカラーにする
-NeoBundle 'itchyny/lightline.vim'
+call dein#add('itchyny/lightline.vim')
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ 'active': {
@@ -25,115 +17,81 @@ let g:lightline = {
     \ 'component_function': {
     \   'my_component': 'LightLineComponent'},
     \}
-        
+
+
 "-----------------------------------
+" 補完系
 
-" vim補完neocomplet --------------------
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 1
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" AutoComplPop like behavior.
-let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-" --------------------------------------
-NeoBundle 'Shougo/neosnippet'
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" NerdTree
+call dein#add('scrooloose/nerdtree')
+let g:NERDTreeShowHidden=1 " 隠しファイルを表示する
+autocmd vimenter * NERDTree " NerdTreeの自動開始
+" Nerd Treeを表示する
+map <C-\> :NERDTreeToggle<CR>
  
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
- 
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
+" NeoComplete
+call dein#add('Shougo/neocomplete.vim')
+let g:neocomplete#enable_at_startup = 1 " 起動時にneocompleteを実行
+let g:neocomplete#enable_smart_case = 1 " 大文字が入力されるまで大文字小文字の区別を無視する
+let g:neocomplete#enable_underbar_completion = 1 " '_'区切りの補完を有効化
+let g:neocomplete#sources#syntax#min_keyword_length = 3 " シンタックスファイルの補完候補となるキーワードの長さ
 
-NeoBundle 'Shougo/neosnippet-snippets'
-
-" --------------------------------------
-
-" nerd-tree
-NeoBundle 'scrooloose/nerdtree'
+" NeoSnippet
+call dein#add('Shougo/neosnippet')
+call dein#add('Shougo/neosnippet-snippets')
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
 
 " emmet-vim
-NeoBundle 'mattn/emmet-vim'
+call dein#add('mattn/emmet-vim')
 let user_emmet_expandabbr_key = '<c-e>'
+
+" 自動でendを閉じる
+call dein#add('tpope/vim-endwise')
+
+"-----------------------------------
+" Util系
+
+" Unite vim
+call dein#add('Shougo/unite.vim')
+
+" Vim Proc 非同期処理
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+
+"-----------------------------------
+" Ruby
+call dein#add('vim-ruby/vim-ruby')
+let ruby_operators = 1 " 演算子をハイライト
+let ruby_space_errors = 1 " 行末のホワイトスペースをハイライト
+let g:ruby_indent_access_modifier_style = 'indent'
+
+" vim-monster
+call dein#add('osyo-manga/vim-monster')
+" Set async completion.
+let g:monster#completion#rcodetools#backend = "async_rct_complete"
+
+" With neocomplete.vim
+let g:neocomplete#sources#omni#input_patterns = {
+            \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+            \}
+
+"-----------------------------------
+call dein#end()
+
+if dein#check_install()
+  call dein#install()
+endif
+
+" --------------------------------------
 " ここで終了
 
-call neobundle#end()
 filetype plugin indent on
+
+augroup filetypedetect
+  au BufRead,BufNewFile *.rb setfiletype ruby
+  au BufRead,BufNewFile *.php setfiletype php
+  au BufRead,BufNewFile *.swift setfiletype swift
+augroup END
 
 " コピペ対策
 set clipboard=unnamed
@@ -152,7 +110,6 @@ set autoread
 set noswapfile
 set smartindent
 set smarttab
-set paste
 "statuline関連 -------------
 set statusline=2
 "ステータスラインにコマンドを表示
@@ -202,5 +159,3 @@ set showmatch
 autocmd FileType * setlocal formatoptions-=ro
 "nerd treeのキーマップ
 nnoremap <silent><C-1> :NERDTreeToggle<CR>
-"vim 起動時にpluginの未インストールを確認
-NeoBundleCheck
