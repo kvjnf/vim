@@ -81,6 +81,13 @@ let g:neocomplete#sources#omni#input_patterns = {
 
 " syntax highlight
 call dein#add('othree/yajs.vim')
+call dein#add('othree/es.next.syntax.vim')
+call dein#add('mxw/vim-jsx')
+
+" vim-jsx用の設定
+let g:jsx_ext_required = 1        " ファイルタイプがjsxのとき読み込む．
+let g:jsx_pragma_required = 0     " @から始まるプラグマでは読み込まない．
+
 
 " linter
 call dein#add('w0rp/ale')
