@@ -84,14 +84,9 @@ endif
 
 " --------------------------------------
 " ここで終了
-
+" .vim/ftplugin
 filetype plugin indent on
 
-augroup filetypedetect
-  au BufRead,BufNewFile *.rb setfiletype ruby
-  au BufRead,BufNewFile *.php setfiletype php
-  au BufRead,BufNewFile *.swift setfiletype swift
-augroup END
 
 " コピペ対策
 set clipboard=unnamed
