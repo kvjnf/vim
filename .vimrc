@@ -16,6 +16,7 @@ let g:lightline = {
     \             [ 'my_component' ] ] },
     \ 'component_function': {
     \   'my_component': 'LightLineComponent'},
+    \   'ale': 'ALEGetStatusLine'
     \}
 
 
@@ -74,6 +75,38 @@ let g:monster#completion#rcodetools#backend = "async_rct_complete"
 let g:neocomplete#sources#omni#input_patterns = {
             \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
             \}
+
+"-----------------------------------
+" Javascript
+
+" syntax highlight
+call dein#add('othree/yajs.vim')
+
+" linter
+call dein#add('w0rp/ale')
+"lintツールの指定
+let g:ale_linters = {
+        \   'javascript': ['eslint'],
+        \
+}
+"左端のシンボルカラムを表示したままにする
+let g:ale_sign_column_always = 1
+"シンボルを変更する
+let g:ale_sign_error = '!!'
+"エラーと警告数をステータスラインに表示する
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_error_str = 'Err'
+let g:ale_echo_msg_warning_str = 'Warn'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+"-----------------------------------
+" CSS3
+
+call dein#add('hail2u/vim-css3-syntax')
+
+"-----------------------------------
+" html5
+
+call dein#add('othree/html5.vim')
 
 "-----------------------------------
 call dein#end()
