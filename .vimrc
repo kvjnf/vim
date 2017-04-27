@@ -87,8 +87,7 @@ call dein#add('w0rp/ale')
 "lintツールの指定
 let g:ale_linters = {
         \   'javascript': ['eslint'],
-        \
-}
+        \}
 "左端のシンボルカラムを表示したままにする
 let g:ale_sign_column_always = 1
 "シンボルを変更する
